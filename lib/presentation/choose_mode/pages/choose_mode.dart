@@ -9,6 +9,9 @@ import 'package:spotify_project/core/configs/assets/app_vectors.dart';
 import 'package:spotify_project/core/configs/theme/app_colors.dart';
 import 'package:spotify_project/main.dart';
 import 'package:spotify_project/presentation/choose_mode/bloc/theme_cubit.dart';
+import 'package:spotify_project/presentation/choose_mode/pages/theme_icon.dart';
+import 'package:spotify_project/presentation/enter_app/enter_app.dart';
+import 'package:spotify_project/presentation/logo/logo.dart';
 
 class ChooseMode extends StatelessWidget {
   const ChooseMode({super.key});
@@ -24,9 +27,7 @@ class ChooseMode extends StatelessWidget {
           ),
           Column(
             children: [
-              Align(
-                  alignment: Alignment.topCenter,
-                  child: SafeArea(child: SvgPicture.asset(AppVectors.logo))),
+              const Logo(),
               const Spacer(),
               const Text(
                 'Choose mode',
@@ -38,97 +39,40 @@ class ChooseMode extends StatelessWidget {
               const SizedBox(
                 height: 40,
               ),
-              Container(color: Colors.black.withOpacity(0.15),),
-              Row(
+              Container(
+                color: Colors.black.withOpacity(0.15),
+              ),
+              const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Column(
-                    children: [
-                      InkWell(
-                         onTap: () {
-                          context.read<ThemeCubit>().setDarkMode();
-                        },
-                        child: ClipOval(
-                          child: BackdropFilter(
-                            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                            child: Container(
-                              width: 80,
-                              height: 80,
-                              decoration: BoxDecoration(
-                                color: const Color(0xff30393c).withOpacity(0.5),
-                                shape: BoxShape.circle,
-                              ),
-                              child: SvgPicture.asset(
-                                AppVectors.darkMode,
-                                fit: BoxFit.none,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      const Text(
-                        'dark mode',
-                        style: TextStyle(
-                            color: AppColors.customGrey,
-                            fontSize: 17,
-                            fontWeight: FontWeight.w400),
-                      )
-                    ],
+                  ThemeIcon(
+                    vectors: AppVectors.darkMode,
+                    mode: 'dark mode',
                   ),
-                  const SizedBox(
+                  SizedBox(
                     width: 60,
                   ),
-                  Column(
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          context.read<ThemeCubit>().setLightMode();
-                        },
-                        child: ClipOval(
-                          child: BackdropFilter(
-                            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                            child: Container(
-                              width: 80,
-                              height: 80,
-                              decoration: BoxDecoration(
-                                color: const Color(0xff30393c).withOpacity(0.5),
-                                shape: BoxShape.circle,
-                              ),
-                              child: SvgPicture.asset(
-                                AppVectors.lightMode,
-                                fit: BoxFit.none,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      const Text(
-                        'light mode',
-                        style: TextStyle(
-                            color: AppColors.customGrey,
-                            fontSize: 17,
-                            fontWeight: FontWeight.w400),
-                      )
-                    ],
+                  ThemeIcon(
+                    vectors: AppVectors.lightMode,
+                    mode: 'light mode',
                   ),
                 ],
               ),
               const SizedBox(
                 height: 30,
               ),
-              // Container(
-              //   color: Colors.black.withOpacity(0.15),
-              // ),
               Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 40, vertical: 40),
-                  child: BasicAppButton(onPressed: () {}, title: 'Continue'))
+                  child: BasicAppButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => EnterApp(),
+                            ));
+                      },
+                      title: 'Continue'))
             ],
           )
         ],

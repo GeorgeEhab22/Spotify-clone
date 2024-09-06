@@ -3,4 +3,6 @@ class AppImages {
   static const String format = '.png';
   static const String getStartedImage = '${basePath}get_started$format';
   static const String chooseModeImage ='${basePath}choose mode$format';
+  static const String enterAppImage ='${basePath}enter_app$format';
+
 }

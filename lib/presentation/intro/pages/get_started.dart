@@ -4,6 +4,7 @@ import 'package:spotify_project/common/custom_button/basic_app_button.dart';
 import 'package:spotify_project/core/configs/assets/app_images.dart';
 import 'package:spotify_project/core/configs/assets/app_vectors.dart';
 import 'package:spotify_project/presentation/choose_mode/pages/choose_mode.dart';
+import 'package:spotify_project/presentation/logo/logo.dart';
 
 class GetStartedPage extends StatelessWidget {
   const GetStartedPage({super.key});
@@ -27,11 +28,7 @@ class GetStartedPage extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 40,vertical: 40),
             child: Column(
                 children: [
-                  SafeArea(
-                    child: Align(
-                        alignment: Alignment.topCenter,
-                        child: SvgPicture.asset(AppVectors.logo)),
-                  ),
+                 const Logo(),
                   const Spacer(),
                   const Text(
                     'Enjoy listening to music',

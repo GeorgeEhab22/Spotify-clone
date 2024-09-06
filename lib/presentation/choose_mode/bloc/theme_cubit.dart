@@ -19,8 +19,8 @@ class ThemeCubit extends HydratedCubit<ThemeMode> {
     return {'themeMode': state.index};
   }
 
-  void setDarkMode() => emit(ThemeMode.dark);
-  void setLightMode() => emit(ThemeMode.light);
+   setDarkMode() => emit(ThemeMode.dark);
+   setLightMode() => emit(ThemeMode.light);
 
   }
 
