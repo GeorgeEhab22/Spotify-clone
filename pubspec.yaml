@@ -13,9 +13,13 @@ dependencies:
   cupertino_icons: ^1.0.8
   device_preview: ^1.2.0
   flutter_svg:
-  flutter_bloc:
-  hydrated_bloc:
-  path_provider:
+  flutter_bloc: 
+  hydrated_bloc: 
+  path_provider: 
+  firebase_core: ^2.24.2
+  firebase_auth:
+  get_it:
+  dartz:
 
 dev_dependencies:
   flutter_test:

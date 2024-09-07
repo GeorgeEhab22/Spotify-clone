@@ -61,7 +61,7 @@ class EnterApp extends StatelessWidget {
                 Expanded(
                   flex: 1,
                   child: BasicAppButton(
-                    onPressed: () =>Navigator.push(context,MaterialPageRoute(builder: (BuildContext context)=> const Register())),
+                    onPressed: () =>Navigator.push(context,MaterialPageRoute(builder: (BuildContext context)=>  Register())),
                     title: 'Register',
                     height: 80,
                   ),
@@ -77,7 +77,7 @@ class EnterApp extends StatelessWidget {
                            color: context.isDarkMode ? Colors.white : Colors.black
                           ),
                     ),
-                    onPressed: () =>Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>const Signin()),
+                    onPressed: () =>Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=> Signin()),
                   ),
                 ))
               ]),
