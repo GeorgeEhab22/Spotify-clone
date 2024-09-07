@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -9,31 +10,46 @@ import 'package:spotify_project/presentation/choose_mode/bloc/theme_cubit.dart';
 import 'package:spotify_project/presentation/pages/splash/splash_screen.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:spotify_project/presentation/root/root.dart';
 import 'package:spotify_project/service_locator.dart';
 
 Future<void> main() async {
+  // Ensure widgets are initialized
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize Firebase
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  // Get current authenticated user (if any)
+  FirebaseAuth auth = FirebaseAuth.instance;
+  User? user = auth.currentUser;
+
+  // Initialize HydratedBloc storage
   HydratedBloc.storage = await HydratedStorage.build(
     storageDirectory: kIsWeb
         ? HydratedStorage.webStorageDirectory
         : await getApplicationDocumentsDirectory(),
   );
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+
+  // Initialize other dependencies (e.g., service locators)
   await initializeDependencies();
+
+  // Run the app with DevicePreview (enabled only for debugging purposes)
   runApp(
     DevicePreview(
-      enabled: true,
-      builder: (context) => const MyApp(),
+      enabled: !kReleaseMode,  // Disable DevicePreview in release mode
+      builder: (context) => MyApp(isLoggedIn: user != null),
     ),
   );
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final bool isLoggedIn;
 
-  // This widget is the root of your application.
+  const MyApp({super.key, required this.isLoggedIn});
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -45,14 +61,14 @@ class MyApp extends StatelessWidget {
       child: BlocBuilder<ThemeCubit, ThemeMode>(
         builder: (context, themeMode) {
           return MaterialApp(
-            locale: DevicePreview.locale(context),
-            builder: DevicePreview.appBuilder,
+            locale: DevicePreview.locale(context),  // Locales for preview
+            builder: DevicePreview.appBuilder,      // Wraps for DevicePreview
             debugShowCheckedModeBanner: false,
             title: 'Flutter Demo',
-            theme: AppTheme.lightTheme,
-            darkTheme: AppTheme.darkTheme,
-            themeMode: themeMode,
-            home: const SplashScreen(),
+            theme: AppTheme.lightTheme,             // Light theme config
+            darkTheme: AppTheme.darkTheme,          // Dark theme config
+            themeMode: themeMode,                   // Current theme mode
+            home: isLoggedIn ? const Root() : const SplashScreen(),  // Navigate based on login
           );
         },
       ),

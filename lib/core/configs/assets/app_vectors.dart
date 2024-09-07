@@ -8,5 +8,8 @@ class AppVectors {
   static const bottomPattern = '${basePath}bottom_pattern$format';
   static const lightLine = '${basePath}light line$format';
   static const darlLine = '${basePath}dark line$format';
+  static const topCard = '${basePath}top card$format';
+
+
 
 }
