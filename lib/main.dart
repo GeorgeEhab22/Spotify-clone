@@ -10,7 +10,7 @@ import 'package:spotify_project/presentation/choose_mode/bloc/theme_cubit.dart';
 import 'package:spotify_project/presentation/pages/splash/splash_screen.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:spotify_project/presentation/root/root.dart';
+import 'package:spotify_project/presentation/home/pages/home.dart';
 import 'package:spotify_project/service_locator.dart';
 
 Future<void> main() async {
@@ -68,7 +68,7 @@ class MyApp extends StatelessWidget {
             theme: AppTheme.lightTheme,             // Light theme config
             darkTheme: AppTheme.darkTheme,          // Dark theme config
             themeMode: themeMode,                   // Current theme mode
-            home: isLoggedIn ? const Root() : const SplashScreen(),  // Navigate based on login
+            home: isLoggedIn ?  const Root() : const SplashScreen(),  // Navigate based on login
           );
         },
       ),

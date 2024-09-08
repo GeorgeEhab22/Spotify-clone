@@ -6,7 +6,7 @@ import 'package:spotify_project/common/helper/is_dark.dart';
 import 'package:spotify_project/core/configs/assets/app_vectors.dart';
 import 'package:spotify_project/data/models/auth/create_user_req.dart';
 import 'package:spotify_project/domain/usecases/auth/signup.dart';
-import 'package:spotify_project/presentation/root/root.dart';
+import 'package:spotify_project/presentation/home/pages/home.dart';
 import 'package:spotify_project/presentation/signin/signin.dart';
 import 'package:spotify_project/service_locator.dart';
 
@@ -78,7 +78,7 @@ class _RegisterState extends State<Register> {
                       Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                              builder: (BuildContext context) => const Root()),
+                              builder: (BuildContext context) =>  const Root()),
                           (route) => false);
                     });
                   },

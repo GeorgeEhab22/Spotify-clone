@@ -44,37 +44,38 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyDpm71urUvNYg-aXU6KHRGqoJGeA_ybnlc',
-    appId: '1:123697415981:web:8d2cfadcb3de41afa2b5a4',
-    messagingSenderId: '123697415981',
-    projectId: 'spotify-clone-f37bd',
-    authDomain: 'spotify-clone-f37bd.firebaseapp.com',
-    storageBucket: 'spotify-clone-f37bd.appspot.com',
+    apiKey: 'AIzaSyBSD31Tzm5wQYPMMMQ3q2esE7haQT8-2z0',
+    appId: '1:935327747676:web:6a017ec3413269bb872099',
+    messagingSenderId: '935327747676',
+    projectId: 'spotify-clone-c364a',
+    authDomain: 'spotify-clone-c364a.firebaseapp.com',
+    storageBucket: 'spotify-clone-c364a.appspot.com',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBd7a7uTGzDPbcmYh5ngu9kuhjV_bLyfSc',
-    appId: '1:123697415981:android:17420114f627f372a2b5a4',
-    messagingSenderId: '123697415981',
-    projectId: 'spotify-clone-f37bd',
-    storageBucket: 'spotify-clone-f37bd.appspot.com',
+    apiKey: 'AIzaSyAGF6JcF_l2m5QdrOBle3yVQkrz91bDsUE',
+    appId: '1:935327747676:android:ec477dddfb1373e1872099',
+    messagingSenderId: '935327747676',
+    projectId: 'spotify-clone-c364a',
+    storageBucket: 'spotify-clone-c364a.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCB4RpIryGbf2qFjuRUwQ9TnEjM3ZkUI1Y',
-    appId: '1:123697415981:ios:75b829253ba082fda2b5a4',
-    messagingSenderId: '123697415981',
-    projectId: 'spotify-clone-f37bd',
-    storageBucket: 'spotify-clone-f37bd.appspot.com',
+    apiKey: 'AIzaSyBVGZo1Z6E3Xv-pblrde_61UMJJ-T25yH0',
+    appId: '1:935327747676:ios:517ae9d2fb08c8a7872099',
+    messagingSenderId: '935327747676',
+    projectId: 'spotify-clone-c364a',
+    storageBucket: 'spotify-clone-c364a.appspot.com',
     iosBundleId: 'com.example.spotifyProject',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyDpm71urUvNYg-aXU6KHRGqoJGeA_ybnlc',
-    appId: '1:123697415981:web:8435511d3355c849a2b5a4',
-    messagingSenderId: '123697415981',
-    projectId: 'spotify-clone-f37bd',
-    authDomain: 'spotify-clone-f37bd.firebaseapp.com',
-    storageBucket: 'spotify-clone-f37bd.appspot.com',
+    apiKey: 'AIzaSyBSD31Tzm5wQYPMMMQ3q2esE7haQT8-2z0',
+    appId: '1:935327747676:web:26efd14267496e47872099',
+    messagingSenderId: '935327747676',
+    projectId: 'spotify-clone-c364a',
+    authDomain: 'spotify-clone-c364a.firebaseapp.com',
+    storageBucket: 'spotify-clone-c364a.appspot.com',
   );
+
 }

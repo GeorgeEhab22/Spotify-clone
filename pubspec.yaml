@@ -21,6 +21,7 @@ dependencies:
   get_it:
   dartz:
   flutter_secure_storage:
+  cloud_firestore:
 
 dev_dependencies:
   flutter_test:

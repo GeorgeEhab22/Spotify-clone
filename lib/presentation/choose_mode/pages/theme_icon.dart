@@ -10,6 +10,8 @@ import 'package:spotify_project/presentation/choose_mode/bloc/theme_cubit.dart';
 class ThemeIcon extends StatelessWidget {
   final String vectors;
   final String mode;
+  static late String cMode;
+
   const ThemeIcon({
     super.key,
     required this.vectors,
@@ -27,6 +29,7 @@ class ThemeIcon extends StatelessWidget {
             } else if (mode == 'light mode') {
               context.read<ThemeCubit>().setLightMode();
             }
+          //  cMode = mode;
           },
           child: ClipOval(
             child: BackdropFilter(
@@ -49,7 +52,7 @@ class ThemeIcon extends StatelessWidget {
         const SizedBox(
           height: 15,
         ),
-         Text(
+        Text(
           mode,
           style: const TextStyle(
               color: AppColors.customGrey,
