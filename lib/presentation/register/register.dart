@@ -3,7 +3,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:spotify_project/common/app_bar/appBar.dart';
 import 'package:spotify_project/common/custom_button/basic_app_button.dart';
 import 'package:spotify_project/common/helper/is_dark.dart';
+import 'package:spotify_project/common/snack_bar/snack_bar.dart';
 import 'package:spotify_project/core/configs/assets/app_vectors.dart';
+import 'package:spotify_project/core/configs/theme/app_colors.dart';
 import 'package:spotify_project/data/models/auth/create_user_req.dart';
 import 'package:spotify_project/domain/usecases/auth/signup.dart';
 import 'package:spotify_project/presentation/home/pages/home.dart';
@@ -65,6 +67,14 @@ class _RegisterState extends State<Register> {
               ),
               BasicAppButton(
                   onPressed: () async {
+                    showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (BuildContext context) => const Center(
+                                child: CircularProgressIndicator(
+                              color: AppColors.primary,
+                            )));
+
                     // Use the controllers to access the text values
                     var result = await serviceLocator<SignupUseCase>().call(
                         params: CreateUserReq(
@@ -72,13 +82,15 @@ class _RegisterState extends State<Register> {
                             email: _emailController.text.toString(),
                             password: _passwordController.text.toString()));
                     result.fold((l) {
-                      var snackBar = SnackBar(content: Text(l));
-                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      Navigator.of(context, rootNavigator: true).pop();
+                      showCustomSnackBar(context, l);
                     }, (r) {
+                      showCustomSnackBar(context, 'Register success !');
+
                       Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                              builder: (BuildContext context) =>  const Root()),
+                              builder: (BuildContext context) => const Root()),
                           (route) => false);
                     });
                   },
@@ -198,7 +210,7 @@ class _RegisterState extends State<Register> {
               onPressed: () => Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                      builder: (BuildContext context) =>  Signin())),
+                      builder: (BuildContext context) => Signin())),
               child: const Text('Sign In',
                   style: TextStyle(
                       fontSize: 14,
@@ -207,5 +219,24 @@ class _RegisterState extends State<Register> {
         ],
       ),
     );
+  }
+
+  void showCustomSnackBar(BuildContext context, String message) {
+    final overlay = Overlay.of(context);
+    final overlayEntry = OverlayEntry(
+      builder: (context) => Positioned(
+        bottom: 50,
+        left: 20,
+        right: 20,
+        child: AnimatedSnackBar(message: message),
+      ),
+    );
+
+    overlay.insert(overlayEntry);
+
+    // Automatically remove the Snackbar after 2 seconds
+    Future.delayed(const Duration(seconds: 2), () {
+      overlayEntry.remove();
+    });
   }
 }

@@ -28,7 +28,6 @@ class _NewsSongsState extends State<NewsSongs> {
                   child: const CircularProgressIndicator());
             }
             if (state is NewsSongsLoaded) {
-              
               return songs(state.songs);
             }
             return Container();
@@ -51,16 +50,51 @@ class _NewsSongsState extends State<NewsSongs> {
           child: Column(
             children: [
               Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30),
-                    image: DecorationImage(
-                      image: NetworkImage(imageUrl),
-                      fit: BoxFit.cover,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 15),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      image: DecorationImage(
+                        image: NetworkImage(imageUrl),
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                 ),
               ),
+              const SizedBox(
+                height: 15,
+              ),
+              Align(
+                  alignment: Alignment.topLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 30),
+                    child: Text(
+                      textAlign: TextAlign.left,
+                      songs[index].title,
+                      style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xffE1E1E1)),
+                    ),
+                  )),
+              const SizedBox(
+                height: 5,
+              ),
+              Align(
+                  alignment: Alignment.topLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 30),
+                    child: Text(
+                      textAlign: TextAlign.left,
+                      songs[index].artist,
+                      style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                          color: Color(0xffE1E1E1)),
+                    ),
+                  )),
             ],
           ),
         );
