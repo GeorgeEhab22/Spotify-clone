@@ -9,6 +9,14 @@ class AppVectors {
   static const lightLine = '${basePath}light line$format';
   static const darlLine = '${basePath}dark line$format';
   static const topCard = '${basePath}top card$format';
+  static const lightPlayIcon = '${basePath}light Play$format';
+  static const darkPlayIcon = '${basePath}dark Play$format';
+  static const lightHeartIcon = '${basePath}light_heart$format';
+  static const darkHeartIcon = '${basePath}dark_heart$format';
+
+
+
+
 
 
 

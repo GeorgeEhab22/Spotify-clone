@@ -5,5 +5,8 @@ class AppColors {
   static const lightBackground = Color(0xffF2F2F2);
   static const darkBackground = Color(0xff0D0C0C);
   static const customGrey = Color(0xffBEBEBE);
-  static const BottomNavigationColor = Color(0xff343434);
+  static const darkGrey = Color(0xff343434);
+  static const lightGrey = Color(0xffE6E6E6);
+
+  
 }

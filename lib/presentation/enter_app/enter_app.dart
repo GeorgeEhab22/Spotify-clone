@@ -6,7 +6,6 @@ import 'package:spotify_project/common/helper/is_dark.dart';
 import 'package:spotify_project/core/configs/assets/app_images.dart';
 import 'package:spotify_project/core/configs/assets/app_vectors.dart';
 import 'package:spotify_project/core/configs/theme/app_colors.dart';
-import 'package:spotify_project/core/configs/theme/app_theme.dart';
 import 'package:spotify_project/presentation/logo/logo.dart';
 import 'package:spotify_project/presentation/register/register.dart';
 import 'package:spotify_project/presentation/signin/signin.dart';
@@ -61,7 +60,7 @@ class EnterApp extends StatelessWidget {
                 Expanded(
                   flex: 1,
                   child: BasicAppButton(
-                    onPressed: () =>Navigator.push(context,MaterialPageRoute(builder: (BuildContext context)=>  Register())),
+                    onPressed: () =>Navigator.push(context,MaterialPageRoute(builder: (BuildContext context)=>  const Register())),
                     title: 'Register',
                     height: 80,
                   ),

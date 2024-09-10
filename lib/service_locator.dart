@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
 import 'package:spotify_project/data/repository/auth/auth_repositry_imp.dart';
 import 'package:spotify_project/data/repository/song/song_repository_imp.dart';
@@ -8,6 +7,7 @@ import 'package:spotify_project/domain/repository/auth/auth.dart';
 import 'package:spotify_project/domain/usecases/auth/signin.dart';
 import 'package:spotify_project/domain/usecases/auth/signup.dart';
 import 'package:spotify_project/domain/usecases/song/get_news_songs.dart';
+import 'package:spotify_project/domain/usecases/song/get_playlist.dart';
 
 final serviceLocator = GetIt.instance;
 Future<void> initializeDependencies() async {
@@ -21,4 +21,6 @@ Future<void> initializeDependencies() async {
   serviceLocator.registerSingleton<SignupUseCase>(SignupUseCase());
   serviceLocator.registerSingleton<SigninUseCase>(SigninUseCase());
   serviceLocator.registerSingleton<GetNewsSongsUseCase>(GetNewsSongsUseCase());
+  serviceLocator.registerSingleton<GetPlayListUseCase>(GetPlayListUseCase());
+
 }

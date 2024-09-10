@@ -3,7 +3,6 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:spotify_project/core/configs/assets/app_vectors.dart';
 import 'package:spotify_project/core/configs/theme/app_colors.dart';
 import 'package:spotify_project/presentation/choose_mode/bloc/theme_cubit.dart';
 

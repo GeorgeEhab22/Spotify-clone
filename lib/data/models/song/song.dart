@@ -3,11 +3,11 @@ import 'package:spotify_project/domain/entities/song/song.dart';
 
 class SongModel extends SongEntity {
   SongModel({
-    required String artist,
+    required super.artist,
     required String duration,
-    required Timestamp releaseDate,
-    required String title,
-  }) : super(artist: artist, duration: duration.toString(), releaseDate: releaseDate, title: title);
+    required super.releaseDate,
+    required super.title,
+  }) : super(duration: duration.toString());
 
   factory SongModel.fromJson(Map<String, dynamic> json) {
     return SongModel(

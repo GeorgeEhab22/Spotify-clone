@@ -1,7 +1,10 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:spotify_project/common/helper/is_dark.dart';
+import 'package:spotify_project/core/configs/assets/app_vectors.dart';
 import 'package:spotify_project/core/configs/constants/app_urls.dart';
+import 'package:spotify_project/core/configs/theme/app_colors.dart';
 import 'package:spotify_project/domain/entities/song/song.dart';
 import 'package:spotify_project/presentation/home/bloc/news_songs_cubit.dart';
 import 'package:spotify_project/presentation/home/bloc/news_songs_state.dart';
@@ -28,7 +31,7 @@ class _NewsSongsState extends State<NewsSongs> {
                   child: const CircularProgressIndicator());
             }
             if (state is NewsSongsLoaded) {
-              return songs(state.songs);
+              return songs(state.songs, context.isDarkMode);
             }
             return Container();
           },
@@ -37,7 +40,7 @@ class _NewsSongsState extends State<NewsSongs> {
     );
   }
 
-  Widget songs(List<SongEntity> songs) {
+  Widget songs(List<SongEntity> songs, bool isDarkMode) {
     return ListView.separated(
       scrollDirection: Axis.horizontal,
       itemBuilder: (context, index) {
@@ -50,18 +53,42 @@ class _NewsSongsState extends State<NewsSongs> {
           child: Column(
             children: [
               Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 15),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
-                      image: DecorationImage(
-                        image: NetworkImage(imageUrl),
-                        fit: BoxFit.cover,
+                child: Stack(children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 15),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(30),
+                        image: DecorationImage(
+                          image: NetworkImage(imageUrl),
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                   ),
-                ),
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: Container(
+                      width: 30,
+                      height: 30,
+                      transform: Matrix4.translationValues(8, 8, 0),
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: isDarkMode
+                              ? AppColors.darkGrey
+                              : AppColors.lightGrey),
+                      child: context.isDarkMode
+                          ? SvgPicture.asset(
+                              AppVectors.darkPlayIcon,
+                              fit: BoxFit.none,
+                            )
+                          : SvgPicture.asset(
+                              AppVectors.lightPlayIcon,
+                              fit: BoxFit.none,
+                            ),
+                    ),
+                  )
+                ]),
               ),
               const SizedBox(
                 height: 15,
@@ -69,14 +96,16 @@ class _NewsSongsState extends State<NewsSongs> {
               Align(
                   alignment: Alignment.topLeft,
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 30),
+                    padding: const EdgeInsets.only(left: 25),
                     child: Text(
                       textAlign: TextAlign.left,
                       songs[index].title,
-                      style: const TextStyle(
+                      style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
-                          color: Color(0xffE1E1E1)),
+                          color: isDarkMode
+                              ? const Color(0xffE1E1E1)
+                              : Colors.black),
                     ),
                   )),
               const SizedBox(
@@ -85,14 +114,16 @@ class _NewsSongsState extends State<NewsSongs> {
               Align(
                   alignment: Alignment.topLeft,
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 30),
+                    padding: const EdgeInsets.only(left: 25),
                     child: Text(
                       textAlign: TextAlign.left,
                       songs[index].artist,
-                      style: const TextStyle(
+                      style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w400,
-                          color: Color(0xffE1E1E1)),
+                          color: isDarkMode
+                              ? const Color(0xffE1E1E1)
+                              : Colors.black),
                     ),
                   )),
             ],

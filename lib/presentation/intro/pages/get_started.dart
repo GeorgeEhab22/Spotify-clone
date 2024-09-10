@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:spotify_project/common/custom_button/basic_app_button.dart';
 import 'package:spotify_project/core/configs/assets/app_images.dart';
-import 'package:spotify_project/core/configs/assets/app_vectors.dart';
 import 'package:spotify_project/presentation/choose_mode/pages/choose_mode.dart';
 import 'package:spotify_project/presentation/logo/logo.dart';
 

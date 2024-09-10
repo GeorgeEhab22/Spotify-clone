@@ -6,10 +6,8 @@ import 'package:spotify_project/common/helper/is_dark.dart';
 import 'package:spotify_project/common/snack_bar/snack_bar.dart';
 import 'package:spotify_project/core/configs/assets/app_vectors.dart';
 import 'package:spotify_project/core/configs/theme/app_colors.dart';
-import 'package:spotify_project/data/models/auth/create_user_req.dart';
 import 'package:spotify_project/data/models/auth/signin_user_req.dart';
 import 'package:spotify_project/domain/usecases/auth/signin.dart';
-import 'package:spotify_project/domain/usecases/auth/signup.dart';
 import 'package:spotify_project/presentation/register/register.dart';
 import 'package:spotify_project/presentation/home/pages/home.dart';
 import 'package:spotify_project/service_locator.dart';
@@ -17,7 +15,7 @@ import 'package:spotify_project/service_locator.dart';
 class Signin extends StatefulWidget {
   static bool isPasswordVisible = false;
 
-  Signin({super.key});
+  const Signin({super.key});
 
   @override
   State<Signin> createState() => _SigninState();
@@ -184,7 +182,7 @@ class _SigninState extends State<Signin> {
             onPressed: () => Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (BuildContext context) => Register(),
+                builder: (BuildContext context) => const Register(),
               ),
             ),
             child: const Text(
