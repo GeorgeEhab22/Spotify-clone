@@ -2,20 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:spotify_project/common/app_bar/appBar.dart';
 import 'package:spotify_project/common/helper/is_dark.dart';
+import 'package:spotify_project/common/navigation_bar/custum_buttom_navigation_bar.dart';
 import 'package:spotify_project/core/configs/assets/app_images.dart';
 import 'package:spotify_project/core/configs/assets/app_vectors.dart';
 import 'package:spotify_project/core/configs/theme/app_colors.dart';
 import 'package:spotify_project/presentation/home/widgets/news_songs.dart';
 import 'package:spotify_project/presentation/home/widgets/playList.dart';
 
-class Root extends StatefulWidget {
-  const Root({super.key});
+class home extends StatefulWidget {
+  const home({super.key});
   @override
-  State<Root> createState() => _RootState();
+  State<home> createState() => _homeState();
 }
 
-class _RootState extends State<Root> with SingleTickerProviderStateMixin {
+class _homeState extends State<home> with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  int currentIndex = 0;
   @override
   void initState() {
     super.initState();
@@ -25,6 +27,13 @@ class _RootState extends State<Root> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        bottomNavigationBar: CustomButtomNavigationBar(
+          currentIndex: currentIndex,
+          onTap: (value) {
+            currentIndex = value;
+            setState(() {});
+          },
+        ),
         appBar: BasicAppBar(
           title: SvgPicture.asset(
             AppVectors.logo,
@@ -45,11 +54,8 @@ class _RootState extends State<Root> with SingleTickerProviderStateMixin {
                   Container(),
                   Container(),
                   Container(),
-                
                 ]),
-              
               ),
-              
               const Playlist(),
             ],
           ),

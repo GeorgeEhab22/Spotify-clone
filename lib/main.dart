@@ -6,6 +6,7 @@ import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:spotify_project/core/configs/theme/app_theme.dart';
 import 'package:spotify_project/firebase_options.dart';
+import 'package:spotify_project/navigations.dart';
 import 'package:spotify_project/presentation/choose_mode/bloc/theme_cubit.dart';
 import 'package:spotify_project/presentation/pages/splash/splash_screen.dart';
 import 'package:device_preview/device_preview.dart';
@@ -39,7 +40,7 @@ Future<void> main() async {
   // Run the app with DevicePreview (enabled only for debugging purposes)
   runApp(
     DevicePreview(
-      enabled: !kReleaseMode,  // Disable DevicePreview in release mode
+      enabled: !kReleaseMode, // Disable DevicePreview in release mode
       builder: (context) => MyApp(isLoggedIn: user != null),
     ),
   );
@@ -61,14 +62,16 @@ class MyApp extends StatelessWidget {
       child: BlocBuilder<ThemeCubit, ThemeMode>(
         builder: (context, themeMode) {
           return MaterialApp(
-            locale: DevicePreview.locale(context),  // Locales for preview
-            builder: DevicePreview.appBuilder,      // Wraps for DevicePreview
+            locale: DevicePreview.locale(context), // Locales for preview
+            builder: DevicePreview.appBuilder, // Wraps for DevicePreview
             debugShowCheckedModeBanner: false,
             title: 'Flutter Demo',
-            theme: AppTheme.lightTheme,             // Light theme config
-            darkTheme: AppTheme.darkTheme,          // Dark theme config
-            themeMode: themeMode,                   // Current theme mode
-            home: isLoggedIn ?  const Root() : const SplashScreen(),  // Navigate based on login
+            theme: AppTheme.lightTheme, // Light theme config
+            darkTheme: AppTheme.darkTheme, // Dark theme config
+            themeMode: themeMode, // Current theme mode
+            home: isLoggedIn
+                ? const Navigation()
+                : const SplashScreen(), // Navigate based on login
           );
         },
       ),

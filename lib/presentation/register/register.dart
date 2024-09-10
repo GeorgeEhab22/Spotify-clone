@@ -8,6 +8,7 @@ import 'package:spotify_project/core/configs/assets/app_vectors.dart';
 import 'package:spotify_project/core/configs/theme/app_colors.dart';
 import 'package:spotify_project/data/models/auth/create_user_req.dart';
 import 'package:spotify_project/domain/usecases/auth/signup.dart';
+import 'package:spotify_project/navigations.dart';
 import 'package:spotify_project/presentation/home/pages/home.dart';
 import 'package:spotify_project/presentation/signin/signin.dart';
 import 'package:spotify_project/service_locator.dart';
@@ -90,7 +91,7 @@ class _RegisterState extends State<Register> {
                       Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                              builder: (BuildContext context) => const Root()),
+                              builder: (BuildContext context) => const Navigation()),
                           (route) => false);
                     });
                   },
@@ -210,7 +211,7 @@ class _RegisterState extends State<Register> {
               onPressed: () => Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                      builder: (BuildContext context) => Signin())),
+                      builder: (BuildContext context) => const Signin())),
               child: const Text('Sign In',
                   style: TextStyle(
                       fontSize: 14,
