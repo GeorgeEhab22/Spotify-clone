@@ -1,30 +1,38 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:spotify_project/domain/entities/song/song.dart';
 
-class SongModel extends SongEntity {
-  SongModel({
-    required super.artist,
-    required String duration,
-    required super.releaseDate,
-    required super.title,
-  }) : super(duration: duration.toString());
+class SongModel {
+  String? title;
+  String? artist;
+  String? duration;
+  Timestamp? releaseDate;
+  bool? isFavorite;
+  String? songId;
 
-  factory SongModel.fromJson(Map<String, dynamic> json) {
-    return SongModel(
-      artist: json['artist'] ?? '',
-      duration: json['duration'].toString() ?? '',
-      releaseDate: json['releaseDate'] ,  // Converting Firestore Timestamp to DateTime
-      title: json['title'] ?? '',
-    );
+  SongModel(
+      {required this.title,
+      required this.artist,
+      required this.duration,
+      required this.releaseDate,
+      required this.isFavorite,
+      required this.songId});
+
+  SongModel.fromJson(Map<String, dynamic> data) {
+    title = data['title'];
+    artist = data['artist'];
+    duration = data['duration'];
+    releaseDate = data['releaseDate'];
   }
+}
 
-  // Convert SongModel to SongEntity
+extension SongModelX on SongModel {
   SongEntity toEntity() {
     return SongEntity(
-      artist: artist,
-      duration: duration,
-      releaseDate: releaseDate,
-      title: title,
-    );
+        title: title!,
+        artist: artist!,
+        duration: duration.toString(),
+        releaseDate: releaseDate!,
+        isFavorite: isFavorite!,
+        songId: songId!);
   }
 }

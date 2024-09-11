@@ -17,11 +17,9 @@ class AuthFirbaseServiceImp extends AuthFirbaseService {
           email: signinUserReq.email, password: signinUserReq.password);
     } on FirebaseAuthException catch (e) {
       String message = '';
-      if (e.code == 'invalid-email') {
-        message = 'Not user found for that email';
-      } else if (e.code == 'invalid-credential') {
-        message = 'Wrong password provided for that user';
-      }
+     
+        message = 'Invalid email or password';
+      
       return left(message);
     }
     return const Right('signin was successful');
@@ -32,7 +30,7 @@ class AuthFirbaseServiceImp extends AuthFirbaseService {
     try {
       var data = await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: createUserReq.email, password: createUserReq.password);
-      FirebaseFirestore.instance.collection('Users').add(
+      FirebaseFirestore.instance.collection('Users').doc(data.user?.uid).set(
      {
       'name': createUserReq.fullName,
       'email': data.user?.email,

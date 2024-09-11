@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:spotify_project/common/navigation_bar/custum_buttom_navigation_bar.dart';
 import 'package:spotify_project/presentation/favorite/favorite.dart';
@@ -15,7 +14,7 @@ class Navigation extends StatefulWidget {
 class _MyWidgetState extends State<Navigation> {
   int currentIndex = 0;
   List screens = [
-    const home(),
+    const Home(),
     const Favorite(),
     const MyAccount(),
   ];

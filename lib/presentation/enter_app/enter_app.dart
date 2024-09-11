@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:spotify_project/common/app_bar/appBar.dart';
+import 'package:spotify_project/common/app_bar/basic_appBar.dart';
 import 'package:spotify_project/common/custom_button/basic_app_button.dart';
 import 'package:spotify_project/common/helper/is_dark.dart';
 import 'package:spotify_project/core/configs/assets/app_images.dart';
@@ -11,17 +11,17 @@ import 'package:spotify_project/presentation/register/register.dart';
 import 'package:spotify_project/presentation/signin/signin.dart';
 
 class EnterApp extends StatelessWidget {
-   EnterApp({super.key});
-   Color ? buttonColor;
-   
+  EnterApp({super.key});
+  Color? buttonColor;
+
   @override
   Widget build(BuildContext context) {
-   
     return Scaffold(
-      appBar: const BasicAppBar(),
+      appBar: const BasicAppBar(
+        isHome: false,
+      ),
       body: Stack(
-        
-        children: [         
+        children: [
           Align(
               alignment: Alignment.topRight,
               child: SvgPicture.asset(AppVectors.topPattern)),
@@ -60,25 +60,33 @@ class EnterApp extends StatelessWidget {
                 Expanded(
                   flex: 1,
                   child: BasicAppButton(
-                    onPressed: () =>Navigator.push(context,MaterialPageRoute(builder: (BuildContext context)=>  const Register())),
+                    onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                const Register())),
                     title: 'Register',
                     height: 80,
                   ),
                 ),
                 Expanded(
-                  flex: 1,
-                  child: TextButton(
-                    child:  Text(
-                      'Sign in',
-                      style: TextStyle(
-                          fontSize: 19,
-                          fontWeight: FontWeight.bold,
-                           color: context.isDarkMode ? Colors.white : Colors.black
-                          ),
-                    ),
-                    onPressed: () =>Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=> Signin()),
-                  ),
-                ))
+                    flex: 1,
+                    child: TextButton(
+                      child: Text(
+                        'Sign in',
+                        style: TextStyle(
+                            fontSize: 19,
+                            fontWeight: FontWeight.bold,
+                            color: context.isDarkMode
+                                ? Colors.white
+                                : Colors.black),
+                      ),
+                      onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) => Signin()),
+                      ),
+                    ))
               ]),
             )
           ])

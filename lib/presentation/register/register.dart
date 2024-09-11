@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:spotify_project/common/app_bar/appBar.dart';
+import 'package:spotify_project/common/app_bar/basic_appBar.dart';
 import 'package:spotify_project/common/custom_button/basic_app_button.dart';
 import 'package:spotify_project/common/helper/is_dark.dart';
 import 'package:spotify_project/common/snack_bar/snack_bar.dart';
@@ -43,6 +43,7 @@ class _RegisterState extends State<Register> {
           height: 40,
           width: 40,
         ),
+        isHome: false,
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -91,7 +92,8 @@ class _RegisterState extends State<Register> {
                       Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                              builder: (BuildContext context) => const Navigation()),
+                              builder: (BuildContext context) =>
+                                  const Navigation()),
                           (route) => false);
                     });
                   },
