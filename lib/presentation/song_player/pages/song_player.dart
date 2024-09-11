@@ -20,6 +20,9 @@ class SongPlayer extends StatefulWidget {
 
 class _SongPlayerState extends State<SongPlayer> {
   bool isClicked = false;
+  bool repeat = false;
+  bool repeatOne = false;
+  int repeatTab = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +51,6 @@ class _SongPlayerState extends State<SongPlayer> {
               const SizedBox(height: 30),
               songPlayer(context),
               const SizedBox(height: 10),
-             
             ],
           ),
         ),
@@ -94,7 +96,7 @@ class _SongPlayerState extends State<SongPlayer> {
               ),
             ],
           ),
-         FavoriteButton(songEntity: widget.songEntity)
+          FavoriteButton(songEntity: widget.songEntity)
         ],
       ),
     );
@@ -116,7 +118,7 @@ class _SongPlayerState extends State<SongPlayer> {
                 value: songPlayerCubit.songPosition.inSeconds.toDouble(),
                 min: 0.0,
                 max: songPlayerCubit.songDuration.inSeconds.toDouble(),
-                 onChanged: (value) {
+                onChanged: (value) {
                   songPlayerCubit.seekTo(Duration(seconds: value.toInt()));
                 },
               ),
@@ -128,24 +130,82 @@ class _SongPlayerState extends State<SongPlayer> {
                   Text(durationFormatting(songPlayerCubit.songDuration)),
                 ],
               ),
-           const SizedBox(height: 20,),
+              const SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 40),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          repeatTab == 0 ? repeat = !repeat : repeat;
+                          repeat == false ? repeatTab++ : repeatTab;
+                          repeatTab >= 2 ? repeatTab = 0 : repeatTab;
 
-             GestureDetector(
-              onTap: (){
-                context.read<SongPlayerCubit>().playOrPauseSong();
-              },
-               child: Container(
-                height: 60,
-                width: 60,
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: AppColors.primary
+                        });
+                      },
+                      child: Icon(
+                        repeat
+                            ? Icons.repeat_on_rounded
+                            : repeatTab == 1
+                                ? Icons.repeat_one
+                                : Icons.repeat_rounded,
+                        color: context.isDarkMode
+                            ? const Color(0xffA7A7A7)
+                            : const Color(0xff363636),
+                        size: 30,
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {},
+                      child: Icon(
+                        Icons.skip_previous_rounded,
+                        color: context.isDarkMode
+                            ? const Color(0xffA7A7A7)
+                            : const Color(0xff363636),
+                        size: 30,
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        context.read<SongPlayerCubit>().playOrPauseSong();
+                      },
+                      child: Container(
+                        height: 60,
+                        width: 60,
+                        decoration: const BoxDecoration(
+                            shape: BoxShape.circle, color: AppColors.primary),
+                        child: Icon(
+                            context.read<SongPlayerCubit>().audioPlayer.playing
+                                ? Icons.pause
+                                : Icons.play_arrow),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {},
+                      child: Icon(
+                        Icons.skip_next_rounded,
+                        color: context.isDarkMode
+                            ? const Color(0xffA7A7A7)
+                            : const Color(0xff363636),
+                        size: 30,
+                      ),
+                    ), GestureDetector(
+                      onTap: () {},
+                      child: Icon(
+                        Icons.shuffle_rounded,
+                        color: context.isDarkMode
+                            ? const Color(0xffA7A7A7)
+                            : const Color(0xff363636),
+                        size: 30,
+                      ),
+                    )
+                  ],
                 ),
-                child: Icon(
-                  context.read<SongPlayerCubit>().audioPlayer.playing ? Icons.pause : Icons.play_arrow
-                ),
-               ),
-             )
+              ),
             ],
           );
         }
