@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:iconly/iconly.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:spotify_project/common/app_bar/basic_appBar.dart';
 import 'package:spotify_project/common/favorite_button/favorite_button.dart';
 import 'package:spotify_project/common/helper/is_dark.dart';
@@ -13,6 +13,7 @@ import 'package:spotify_project/presentation/song_player/bloc/song_player_state.
 class SongPlayer extends StatefulWidget {
   final SongEntity songEntity;
   const SongPlayer({super.key, required this.songEntity});
+  static bool isShuffle=false;
 
   @override
   State<SongPlayer> createState() => _SongPlayerState();
@@ -23,6 +24,7 @@ class _SongPlayerState extends State<SongPlayer> {
   bool repeat = false;
   bool repeatOne = false;
   int repeatTab = 0;
+ // bool isShuffle = false;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +41,7 @@ class _SongPlayerState extends State<SongPlayer> {
         ),
       ),
       body: BlocProvider(
-        create: (_) => SongPlayerCubit()
+        create: (_) => SongPlayerCubit(widget.songEntity)
           ..loadSong(
             '${AppUrls.songFirestore}${Uri.encodeComponent(widget.songEntity.title)}-${Uri.encodeComponent(widget.songEntity.artist)}.mp3?${AppUrls.mediaAlt}',
           ),
@@ -141,26 +143,55 @@ class _SongPlayerState extends State<SongPlayer> {
                     GestureDetector(
                       onTap: () {
                         setState(() {
+                          songPlayerCubit.toggleRepeatMode();
                           repeatTab == 0 ? repeat = !repeat : repeat;
                           repeat == false ? repeatTab++ : repeatTab;
                           repeatTab >= 2 ? repeatTab = 0 : repeatTab;
-
                         });
                       },
                       child: Icon(
-                        repeat
-                            ? Icons.repeat_on_rounded
-                            : repeatTab == 1
-                                ? Icons.repeat_one
+                        songPlayerCubit.repeatMode == LoopMode.one
+                            ? Icons.repeat_one_rounded
+                            : songPlayerCubit.repeatMode == LoopMode.all
+                                ? Icons.repeat_rounded
                                 : Icons.repeat_rounded,
-                        color: context.isDarkMode
-                            ? const Color(0xffA7A7A7)
-                            : const Color(0xff363636),
+                        color: songPlayerCubit.repeatMode == LoopMode.off
+                            ? context.isDarkMode
+                                ? const Color(0xffA7A7A7)
+                                : const Color(0xff363636)
+                            : AppColors.primary,
                         size: 30,
                       ),
                     ),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        SongEntity previousSong =
+                            songPlayerCubit.previousSong(widget.songEntity);
+                        Navigator.pushReplacement(
+                          context,
+                          PageRouteBuilder(
+                            pageBuilder:
+                                (context, animation, secondaryAnimation) =>
+                                    SongPlayer(songEntity: previousSong),
+                            transitionsBuilder: (context, animation,
+                                secondaryAnimation, child) {
+                              const begin =
+                                  Offset(-1.0, 0.0); // Start from left to right
+                              const end = Offset.zero;
+                              const curve = Curves.easeInOut;
+
+                              var tween = Tween(begin: begin, end: end)
+                                  .chain(CurveTween(curve: curve));
+                              var offsetAnimation = animation.drive(tween);
+
+                              return SlideTransition(
+                                position: offsetAnimation,
+                                child: child,
+                              );
+                            },
+                          ),
+                        );
+                      },
                       child: Icon(
                         Icons.skip_previous_rounded,
                         color: context.isDarkMode
@@ -171,21 +202,51 @@ class _SongPlayerState extends State<SongPlayer> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        context.read<SongPlayerCubit>().playOrPauseSong();
+                        songPlayerCubit.playOrPauseSong();
                       },
                       child: Container(
                         height: 60,
                         width: 60,
                         decoration: const BoxDecoration(
                             shape: BoxShape.circle, color: AppColors.primary),
-                        child: Icon(
-                            context.read<SongPlayerCubit>().audioPlayer.playing
-                                ? Icons.pause
-                                : Icons.play_arrow),
+                        child: Icon(songPlayerCubit.audioPlayer.playing
+                            ? Icons.pause
+                            : Icons.play_arrow),
                       ),
                     ),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        SongEntity nextSong;
+                       SongPlayer.isShuffle
+                            ? nextSong =
+                                songPlayerCubit.shuffle(widget.songEntity)
+                            : nextSong =
+                                songPlayerCubit.nextSong(widget.songEntity);
+                        Navigator.pushReplacement(
+                          context,
+                          PageRouteBuilder(
+                            pageBuilder:
+                                (context, animation, secondaryAnimation) =>
+                                    SongPlayer(songEntity: nextSong),
+                            transitionsBuilder: (context, animation,
+                                secondaryAnimation, child) {
+                              const begin =
+                                  Offset(1.0, 0.0); // Start from right to left
+                              const end = Offset.zero;
+                              const curve = Curves.easeInOut;
+
+                              var tween = Tween(begin: begin, end: end)
+                                  .chain(CurveTween(curve: curve));
+                              var offsetAnimation = animation.drive(tween);
+
+                              return SlideTransition(
+                                position: offsetAnimation,
+                                child: child,
+                              );
+                            },
+                          ),
+                        );
+                      },
                       child: Icon(
                         Icons.skip_next_rounded,
                         color: context.isDarkMode
@@ -193,13 +254,22 @@ class _SongPlayerState extends State<SongPlayer> {
                             : const Color(0xff363636),
                         size: 30,
                       ),
-                    ), GestureDetector(
-                      onTap: () {},
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          SongPlayer.isShuffle = !SongPlayer.isShuffle;
+                        });
+                      },
                       child: Icon(
-                        Icons.shuffle_rounded,
-                        color: context.isDarkMode
-                            ? const Color(0xffA7A7A7)
-                            : const Color(0xff363636),
+                        SongPlayer.isShuffle
+                            ? Icons.shuffle_outlined
+                            : Icons.shuffle_rounded,
+                        color: SongPlayer.isShuffle
+                            ? AppColors.primary
+                            : context.isDarkMode
+                                ? const Color(0xffA7A7A7)
+                                : const Color(0xff363636),
                         size: 30,
                       ),
                     )

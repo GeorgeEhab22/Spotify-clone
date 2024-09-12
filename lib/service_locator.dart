@@ -11,6 +11,7 @@ import 'package:spotify_project/domain/usecases/song/add_or_remove_favorite.dart
 import 'package:spotify_project/domain/usecases/song/get_news_songs.dart';
 import 'package:spotify_project/domain/usecases/song/get_playlist.dart';
 import 'package:spotify_project/domain/usecases/song/is_favorite_song.dart';
+import 'package:spotify_project/domain/usecases/song/next_song.dart';
 
 final serviceLocator = GetIt.instance;
 Future<void> initializeDependencies() async {
@@ -27,6 +28,8 @@ Future<void> initializeDependencies() async {
   serviceLocator.registerSingleton<SigninUseCase>(SigninUseCase());
   serviceLocator.registerSingleton<GetNewsSongsUseCase>(GetNewsSongsUseCase());
   serviceLocator.registerSingleton<GetPlayListUseCase>(GetPlayListUseCase());
+  serviceLocator.registerSingleton<NextSongUseCase>(NextSongUseCase());
+
 
   serviceLocator.registerSingleton<AddOrRemoveFavoriteUseCase>(
       AddOrRemoveFavoriteUseCase()

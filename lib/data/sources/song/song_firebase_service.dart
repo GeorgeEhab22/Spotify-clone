@@ -11,9 +11,11 @@ abstract class SongFirebaseService {
   Future<Either<Failure, List<SongEntity>>> getPlayList();
   Future<Either> addOrRemoveFavoriteSongs(String songId);
   Future<bool> isFavoriteSong(String songId);
+  Future<SongEntity> nextSong(SongEntity currentSong);
 }
 
 class SongFirebaseServiceImp implements SongFirebaseService {
+  static List<SongEntity> songs = [];
   @override
   Future<Either<Failure, List<SongEntity>>> getNewsSongs() async {
     try {
@@ -64,6 +66,7 @@ class SongFirebaseServiceImp implements SongFirebaseService {
         songModel.isFavorite = isFavorite;
         songModel.songId = song.reference.id;
         playList.add(songModel.toEntity());
+        songs.add(songModel.toEntity());
       }
 
       return right(playList);
@@ -130,6 +133,16 @@ class SongFirebaseServiceImp implements SongFirebaseService {
     } catch (e) {
       return false;
     }
+  }
+
+  @override
+  Future<SongEntity> nextSong(SongEntity currentSong) async {
+    for (int i = 0; i < songs.length; i++) {
+      if (currentSong.title == songs[i].title && i + 1 < songs.length) {
+        return songs[i + 1];
+      }
+    }
+    return songs[0];
   }
 }
 
