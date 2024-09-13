@@ -70,12 +70,14 @@ class _RegisterState extends State<Register> {
               BasicAppButton(
                   onPressed: () async {
                     showDialog(
-                        context: context,
-                        barrierDismissible: false,
-                        builder: (BuildContext context) => const Center(
-                                child: CircularProgressIndicator(
-                              color: AppColors.primary,
-                            )));
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (BuildContext context) => const Center(
+                        child: CircularProgressIndicator(
+                          color: AppColors.primary,
+                        ),
+                      ),
+                    );
 
                     // Use the controllers to access the text values
                     var result = await serviceLocator<SignupUseCase>().call(

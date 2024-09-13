@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:spotify_project/common/helper/is_dark.dart';
+import 'package:spotify_project/core/configs/theme/app_colors.dart';
 
 class BasicAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Widget? title;
@@ -16,7 +17,7 @@ class BasicAppBar extends StatelessWidget implements PreferredSizeWidget {
         
         title: title,
         elevation: 0,
-        backgroundColor: Colors.transparent,
+        backgroundColor:isHome? context.isDarkMode? AppColors.darkGrey:Colors.white:Colors.transparent,
         leading:isHome?const SizedBox(): IconButton(
           onPressed: () => Navigator.pop(context),
           icon: Container(

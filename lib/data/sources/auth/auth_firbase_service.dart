@@ -3,10 +3,13 @@ import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:spotify_project/data/models/auth/create_user_req.dart';
 import 'package:spotify_project/data/models/auth/signin_user_req.dart';
+import 'package:spotify_project/data/models/auth/user.dart';
+import 'package:spotify_project/domain/entities/auth/user.dart';
 
 abstract class AuthFirbaseService {
   Future<Either> signup(CreateUserReq createUserReq);
   Future<Either> signin(SigninUserReq signinUserReq);
+  Future<Either> getUser();
 }
 
 class AuthFirbaseServiceImp extends AuthFirbaseService {
@@ -17,9 +20,9 @@ class AuthFirbaseServiceImp extends AuthFirbaseService {
           email: signinUserReq.email, password: signinUserReq.password);
     } on FirebaseAuthException catch (e) {
       String message = '';
-     
-        message = 'Invalid email or password';
-      
+
+      message = 'Invalid email or password';
+
       return left(message);
     }
     return const Right('signin was successful');
@@ -30,14 +33,11 @@ class AuthFirbaseServiceImp extends AuthFirbaseService {
     try {
       var data = await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: createUserReq.email, password: createUserReq.password);
-      FirebaseFirestore.instance.collection('Users').doc(data.user?.uid).set(
-     {
-      'name': createUserReq.fullName,
-      'email': data.user?.email,
-      //'mode': ThemeIcon.cMode,
-
-     }
-      );
+      FirebaseFirestore.instance.collection('Users').doc(data.user?.uid).set({
+        'name': createUserReq.fullName,
+        'email': data.user?.email,
+        //'mode': ThemeIcon.cMode,
+      });
     } on FirebaseAuthException catch (e) {
       String message = '';
       if (e.code == 'weak-password') {
@@ -48,5 +48,22 @@ class AuthFirbaseServiceImp extends AuthFirbaseService {
       return left(message);
     }
     return const Right('signup was successful');
+  }
+
+  @override
+  Future<Either> getUser() async {
+    try {
+      FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+      FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+      var user = await firebaseFirestore
+          .collection('Users')
+          .doc(firebaseAuth.currentUser?.uid)
+          .get();
+      UserModel userModel = UserModel.fromJson(user.data()!);
+      UserEntity userEntity = userModel.toEntity();
+      return Right(userEntity);
+    } catch (e) {
+      return left('an error occurred');
+    }
   }
 }
