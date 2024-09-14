@@ -10,13 +10,13 @@ import 'package:spotify_project/presentation/choose_mode/bloc/theme_cubit.dart';
 import 'package:spotify_project/presentation/profile/bloc/cubit/profile_info_cubit.dart';
 import 'package:spotify_project/common/app_bar/basic_appBar.dart';
 import 'package:spotify_project/presentation/choose_mode/pages/theme_icon.dart';
+import 'package:spotify_project/presentation/profile/pages/profile_buttons.dart';
 
 class MyAccount extends StatelessWidget {
   const MyAccount({super.key});
 
   @override
   Widget build(BuildContext context) {
-    var mode = context.read<ThemeCubit>();
     return Scaffold(
       appBar: const BasicAppBar(
         isHome: true,
@@ -25,35 +25,39 @@ class MyAccount extends StatelessWidget {
       body: Column(
         children: [
           profileInfo(context),
-          const SizedBox(height: 30,),
-          Align(
-            alignment: Alignment.topLeft,
-            child: ElevatedButton(
-              onPressed: () =>
-                  context.isDarkMode ? mode.setLightMode() : mode.setDarkMode(),
-              style: const ButtonStyle(
-                alignment: Alignment.topLeft,
-                backgroundColor: WidgetStatePropertyAll(Colors.transparent),
-                elevation: WidgetStatePropertyAll(0),
-              ),
-              
-              child: Row(
-                children: [
-                  Text(
-                    'Change Theme',
-                    style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: context.isDarkMode
-                            ? const Color(0xffD6D6D6)
-                            : const Color(0xff222222)),
-                  ),
-                  const SizedBox(width: 20,),
-                  const Icon(Icons.change_circle_outlined,color: AppColors.primary,)
-                ],
-              ),
-            ),
+          const SizedBox(
+            height: 30,
           ),
+          const ProfileButton(
+            button: 'change mode',
+            logout: false,
+
+          ),
+           const SizedBox(
+            height: 30,
+          ),
+           const ProfileButton(
+            button: 'change name',
+            logout: false,
+
+          ),
+            const SizedBox(
+            height: 30,
+          ),
+           const ProfileButton(
+            button: 'change email',
+            logout: false,
+          ),
+            const SizedBox(
+            height: 30,
+          ),
+          
+           const ProfileButton(
+            button: 'Log out',logout: true,
+            
+          ),
+          
+
         ],
       ),
     );

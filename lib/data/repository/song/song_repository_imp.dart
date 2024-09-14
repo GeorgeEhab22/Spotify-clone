@@ -28,4 +28,10 @@ class SongRepositoryImp extends SongsRepository {
   Future<SongEntity> nextSong(SongEntity currentSong) async {
     return await serviceLocator<SongFirebaseService>().nextSong(currentSong);
   }
+  
+  @override
+  Future<Either> getUserFavoriteSongs() async {
+    return await serviceLocator<SongFirebaseService>().getUserFavoriteSongs();
+ 
+  }
 }

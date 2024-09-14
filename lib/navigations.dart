@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:spotify_project/common/navigation_bar/custum_buttom_navigation_bar.dart';
-import 'package:spotify_project/presentation/favorite/favorite.dart';
+import 'package:spotify_project/presentation/favorite/pages/favorite.dart';
 import 'package:spotify_project/presentation/home/pages/home.dart';
 import 'package:spotify_project/presentation/profile/pages/profile.dart';
 

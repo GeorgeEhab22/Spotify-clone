@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:spotify_project/data/models/auth/create_user_req.dart';
+import 'package:spotify_project/data/models/auth/edit_user.dart';
 import 'package:spotify_project/data/models/auth/signin_user_req.dart';
 import 'package:spotify_project/data/models/auth/user.dart';
 import 'package:spotify_project/data/sources/auth/auth_firbase_service.dart';
@@ -20,6 +21,8 @@ class AuthRepositryImp extends AuthRepositry {
   @override
   Future<Either> getUser() async {
     return await serviceLocator<AuthFirbaseService>(). getUser();
-  
+  }
+  Future<Either> editUser(EditUser editUser) async{
+    return await serviceLocator<AuthFirbaseService>().editUser(editUser);
   }
 }

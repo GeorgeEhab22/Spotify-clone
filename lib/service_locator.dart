@@ -5,10 +5,12 @@ import 'package:spotify_project/data/sources/auth/auth_firbase_service.dart';
 import 'package:spotify_project/data/sources/song/song_firebase_service.dart';
 import 'package:spotify_project/domain/repository/auth/auth.dart';
 import 'package:spotify_project/domain/repository/song/song.dart';
+import 'package:spotify_project/domain/usecases/auth/edit_user.dart';
 import 'package:spotify_project/domain/usecases/auth/get_user.dart';
 import 'package:spotify_project/domain/usecases/auth/signin.dart';
 import 'package:spotify_project/domain/usecases/auth/signup.dart';
 import 'package:spotify_project/domain/usecases/song/add_or_remove_favorite.dart';
+import 'package:spotify_project/domain/usecases/song/get_favorite_songs.dart';
 import 'package:spotify_project/domain/usecases/song/get_news_songs.dart';
 import 'package:spotify_project/domain/usecases/song/get_playlist.dart';
 import 'package:spotify_project/domain/usecases/song/is_favorite_song.dart';
@@ -31,6 +33,10 @@ Future<void> initializeDependencies() async {
   serviceLocator.registerSingleton<GetPlayListUseCase>(GetPlayListUseCase());
   serviceLocator.registerSingleton<NextSongUseCase>(NextSongUseCase());
   serviceLocator.registerSingleton<GetUserUseCase>(GetUserUseCase());
+  serviceLocator.registerSingleton<EditUserUseCase>(EditUserUseCase());
+  serviceLocator.registerSingleton<GetFavoriteSongsUseCase>(GetFavoriteSongsUseCase());
+
+
 
 
 

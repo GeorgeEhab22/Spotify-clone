@@ -12,6 +12,7 @@ abstract class SongFirebaseService {
   Future<Either> addOrRemoveFavoriteSongs(String songId);
   Future<bool> isFavoriteSong(String songId);
   Future<SongEntity> nextSong(SongEntity currentSong);
+  Future<Either> getUserFavoriteSongs();
 }
 
 class SongFirebaseServiceImp implements SongFirebaseService {
@@ -79,35 +80,53 @@ class SongFirebaseServiceImp implements SongFirebaseService {
   }
 
   @override
-  Future<Either> addOrRemoveFavoriteSongs(String songId) async {
-    try {
-      final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-      final FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-      late bool isFavorite;
-      var user = firebaseAuth.currentUser;
-      String uId = user!.uid;
-      QuerySnapshot favoriteSongs = await firebaseFirestore
+ @override
+Future<Either> addOrRemoveFavoriteSongs(String songId) async {
+  try {
+    // Ensure the songId is not empty before proceeding
+    if (songId.isEmpty) {
+      return const Left('Invalid song ID');
+    }
+
+    final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+    final FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+
+    late bool isFavorite;
+    var user = firebaseAuth.currentUser;
+    String uId = user!.uid;
+
+    // Check if the song is already in the favorites collection
+    QuerySnapshot favoriteSongs = await firebaseFirestore
+        .collection('Users')
+        .doc(uId)
+        .collection('Favorites')
+        .where('songId', isEqualTo: songId)
+        .get();
+
+    if (favoriteSongs.docs.isNotEmpty) {
+      // If the song is already in favorites, remove it
+      await favoriteSongs.docs.first.reference.delete();
+      isFavorite = false;
+    } else {
+      // If the song is not in favorites, add it
+      await firebaseFirestore
           .collection('Users')
           .doc(uId)
           .collection('Favorites')
-          .where('songId', isEqualTo: songId)
-          .get();
-      if (favoriteSongs.docs.isNotEmpty) {
-        await favoriteSongs.docs.first.reference.delete();
-        isFavorite = false;
-      } else {
-        await firebaseFirestore
-            .collection('Users')
-            .doc(uId)
-            .collection('Favorites')
-            .add({'songId': songId, 'addedDate': Timestamp.now()});
-        isFavorite = true;
-      }
-      return Right(isFavorite);
-    } catch (e) {
-      return const Left('an error occured');
+          .doc(songId)  // Use the songId as the document ID to prevent auto-generated ID issues
+          .set({
+            'songId': songId,
+            'addedDate': Timestamp.now(),
+          });
+      isFavorite = true;
     }
+
+    return Right(isFavorite);
+  } catch (e) {
+    return const Left('An error occurred');
   }
+}
+
 
   @override
   Future<bool> isFavoriteSong(String songId) async {
@@ -144,8 +163,48 @@ class SongFirebaseServiceImp implements SongFirebaseService {
     }
     return songs[0];
   }
+
+  @override
+  Future<Either> getUserFavoriteSongs() async {
+    try {
+      final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+      final FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+      var user = firebaseAuth.currentUser;
+      if (user == null) {
+        return const Left('No user is logged in');
+      }
+
+      List<SongEntity> favoriteSongs = [];
+      String uId = user.uid;
+
+      QuerySnapshot favoritesSnapshot = await firebaseFirestore
+          .collection('Users')
+          .doc(uId)
+          .collection('Favorites')
+          .get();
+
+     for (var element in favoritesSnapshot.docs) {
+String songId = (element.data() as Map<String, dynamic>)['songId'] ?? '';
+    
+    var songDoc = await firebaseFirestore.collection('songs').doc(songId).get();
+   
+
+    if (songDoc.exists && songDoc.data() != null) {
+        var songData = songDoc.data() as Map<String, dynamic>;
+        SongModel songModel = SongModel.fromJson(songData);
+        songModel.isFavorite = true;
+        songModel.songId = songId;  // Make sure the correct songId is assigned here.
+        favoriteSongs.add(songModel.toEntity());
+    }
 }
 
+      return Right(favoriteSongs);
+    } catch (e) {
+      print(e);
+      return const Left('An error occurred');
+    }
+  }
+}
 // core/error/failure.dart
 
 abstract class Failure {

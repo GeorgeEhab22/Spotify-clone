@@ -17,22 +17,26 @@ class SongModel {
       required this.isFavorite,
       required this.songId});
 
-  SongModel.fromJson(Map<String, dynamic> data) {
-    title = data['title'];
-    artist = data['artist'];
-    duration = data['duration'];
-    releaseDate = data['releaseDate'];
-  }
+ SongModel.fromJson(Map<String, dynamic> data) {
+  title = data['title'] ?? 'Unknown Title'; // Provide a default if null
+  artist = data['artist'] ?? 'Unknown Artist'; // Provide a default if null
+  duration = data['duration'] ?? '0:00'; // Provide a default duration
+  releaseDate = data['releaseDate'] ?? Timestamp.now(); // Default to current time
+  isFavorite = false; // Default to false for favorites if not present
+  songId = ''; // Provide a default empty string for songId if null
+}
+
 }
 
 extension SongModelX on SongModel {
   SongEntity toEntity() {
     return SongEntity(
-        title: title!,
-        artist: artist!,
-        duration: duration.toString(),
-        releaseDate: releaseDate!,
-        isFavorite: isFavorite!,
-        songId: songId!);
+      title: title ?? 'Unknown Title', // Ensure a non-null title
+      artist: artist ?? 'Unknown Artist', // Ensure a non-null artist
+      duration: duration ?? '0:00', // Ensure a non-null duration
+      releaseDate: releaseDate ?? Timestamp.now(), // Ensure a non-null releaseDate
+      isFavorite: isFavorite ?? false, // Ensure a non-null isFavorite flag
+      songId: songId ?? '', // Ensure a non-null songId
+    );
   }
 }
