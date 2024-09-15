@@ -37,6 +37,7 @@ class _SigninState extends State<Signin> {
 
   @override
   Widget build(BuildContext context) {
+    bool success=false;
     return Scaffold(
       appBar: BasicAppBar(
         title: SvgPicture.asset(
@@ -74,9 +75,10 @@ class _SigninState extends State<Signin> {
                             password: _passwordController.text.toString()));
                     result.fold((l) {
                       Navigator.of(context, rootNavigator: true).pop();
-                      showCustomSnackBar(context, l);
+                      showCustomSnackBar(context, l,success);
                     }, (r) {
-                      showCustomSnackBar(context, 'Sign in success!');
+                      success=true;
+                      showCustomSnackBar(context, 'Sign in success!',success);
                       Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
@@ -202,14 +204,14 @@ class _SigninState extends State<Signin> {
     );
   }
 
-  void showCustomSnackBar(BuildContext context, String message) {
+  void showCustomSnackBar(BuildContext context, String message,bool success) {
     final overlay = Overlay.of(context);
     final overlayEntry = OverlayEntry(
       builder: (context) => Positioned(
         bottom: 50,
         left: 20,
         right: 20,
-        child: AnimatedSnackBar(message: message),
+        child: AnimatedSnackBar(message: message,success:success ,),
       ),
     );
 

@@ -46,6 +46,8 @@ class AuthFirbaseServiceImp extends AuthFirbaseService {
         message = 'The password provided is too weak';
       } else if (e.code == 'email-already-in-use') {
         message = 'An account already exists with that email';
+      } else {
+        message = 'Please fill all fields';
       }
       return left(message);
     }
@@ -91,6 +93,10 @@ class AuthFirbaseServiceImp extends AuthFirbaseService {
         message = 'The password provided is too weak';
       } else if (e.code == 'email-already-in-use') {
         message = 'An account already exists with that email';
+      }
+      else{
+        message = 'Please fill all fields';
+
       }
       return left(message);
     }

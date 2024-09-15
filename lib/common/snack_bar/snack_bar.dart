@@ -4,11 +4,13 @@ import 'package:spotify_project/core/configs/theme/app_colors.dart';
 class AnimatedSnackBar extends StatefulWidget {
   final String message;
   final Duration displayDuration; // Optional: How long to show the snack bar
+  final bool success;
 
   const AnimatedSnackBar({
     super.key,
     required this.message,
-    this.displayDuration = const Duration(seconds: 2), // Default to 2 seconds
+    this.displayDuration = const Duration(seconds: 2),
+    required this.success, // Default to 2 seconds
   });
 
   @override
@@ -56,7 +58,7 @@ class _AnimatedSnackBarState extends State<AnimatedSnackBar>
     return SlideTransition(
       position: _offsetAnimation,
       child: Material(
-        color: AppColors.primary,
+        color: widget.success ? AppColors.primary : Colors.red,
         elevation: 6,
         borderRadius: BorderRadius.circular(10),
         child: Padding(

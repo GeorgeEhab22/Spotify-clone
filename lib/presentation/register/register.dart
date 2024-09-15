@@ -36,6 +36,7 @@ class _RegisterState extends State<Register> {
 
   @override
   Widget build(BuildContext context) {
+    bool success = false;
     return Scaffold(
       appBar: BasicAppBar(
         title: SvgPicture.asset(
@@ -87,9 +88,10 @@ class _RegisterState extends State<Register> {
                             password: _passwordController.text.toString()));
                     result.fold((l) {
                       Navigator.of(context, rootNavigator: true).pop();
-                      showCustomSnackBar(context, l);
+                      showCustomSnackBar(context, l,success);
                     }, (r) {
-                      showCustomSnackBar(context, 'Register success !');
+                      success = true;
+                      showCustomSnackBar(context, 'Register success !',success);
 
                       Navigator.pushAndRemoveUntil(
                           context,
@@ -226,14 +228,14 @@ class _RegisterState extends State<Register> {
     );
   }
 
-  void showCustomSnackBar(BuildContext context, String message) {
+  void showCustomSnackBar(BuildContext context, String message,bool success) {
     final overlay = Overlay.of(context);
     final overlayEntry = OverlayEntry(
       builder: (context) => Positioned(
         bottom: 50,
         left: 20,
         right: 20,
-        child: AnimatedSnackBar(message: message),
+        child: AnimatedSnackBar(message: message,success: success,),
       ),
     );
 
